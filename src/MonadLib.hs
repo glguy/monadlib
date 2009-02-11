@@ -567,6 +567,10 @@ instance (RunReaderM m i n j)
   => RunReaderM (IdT m) i (IdT n) j where
   local i (IT m) = IT (local i m)
 
+instance (RunReaderM m i m i)
+  => RunReaderM (ContT x m) i (ContT x m) i where
+  local i (C m) = C (local i . m)
+
 instance (RunReaderM m i n j, Monoid w)
   => RunReaderM (WriterT w m) i (WriterT w n) j where
   local i (W m) = W (local i m)
